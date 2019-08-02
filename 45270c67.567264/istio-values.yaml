@@ -1,0 +1,56 @@
+global:
+  proxy:
+    resources:
+      requests:
+        cpu: 50m
+  proxy_init:
+    defaultResources:
+      requests:
+        cpu: 100m
+gateways:
+  istio-ingressgateway:
+    serviceAnnotations:       
+      service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "http"
+      service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    autoscaleMax: 20      
+    ports:
+    - port: 80
+      targetPort: 80
+      name: http2
+      nodePort: 31381
+    - port: 443
+      name: https
+      nodePort: 31390
+     
+    resources:
+      limits:
+        cpu: 400m
+        memory: 512Mi
+      requests:
+        cpu: 400m
+        memory: 512Mi
+mixer:
+  istio-telemetry:
+    autoscaleMax: 40
+    resources:
+      requests:
+          cpu: 400m
+          memory: 512Mi
+servicegraph:
+  enabled: true
+tracing:
+  enabled: true
+pilot:
+  traceSampling: 100
+grafana:
+  enabled: true
+  resources:
+      requests:
+          cpu: 800m
+          memory: 768Mi
+prometheus:
+  enabled: true
+  resources:
+      requests:
+          cpu: 400m
+          memory: 1Gi
