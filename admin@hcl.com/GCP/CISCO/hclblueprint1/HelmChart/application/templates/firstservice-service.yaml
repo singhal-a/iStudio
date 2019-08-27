@@ -1,0 +1,45 @@
+{{ if (.Values.service.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name.firstservice }}
+  labels:
+    app: {{ .Values.service.name.firstservice }}-{{ .Release.Namespace }}
+    app.kubernetes.io/name: {{ .Values.service.name.firstservice }}
+    helm.sh/chart: {{ include "helm.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.firstservice }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ .Values.service.name.firstservice }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ if (.Values.service.expose) }}
+---
+#nginx#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.service.name.firstservice }}
+  labels:
+    app: {{ .Values.service.name.firstservice }}
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: {{ .Values.service.name.firstservice }}.{{ .Release.Namespace }}.svc.cluster.local
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ .Values.service.name.firstservice }}
+              servicePort:  {{ .Values.service.port.firstservice }} 
+#nginxEnd#
+---
+{{- end -}}
+{{- end -}}

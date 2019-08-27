@@ -1,0 +1,138 @@
+---
+#wnde-ui#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wnde-ui
+  labels:
+    app: wnde-ui
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: wnde-ui.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: wnde-ui
+              servicePort: 5000
+#wnde-uiEnd#
+
+
+
+---
+#wnde-be#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: wnde-be
+  labels:
+    app: wnde-be
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: wnde-be.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: wnde-be
+              servicePort: 5006
+#wnde-beEnd#
+
+
+
+---
+#db-mysql#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: db-mysql
+  labels:
+    app: db-mysql
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: db-mysql.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: db-mysql
+              servicePort: 3306
+#db-mysqlEnd#
+
+
+
+---
+#jenkins#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins
+  labels:
+    app: jenkins
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: jenkins.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: jenkins
+              servicePort: 8080
+#jenkinsEnd#
+
+
+
+---
+#kafka#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: kafka
+  labels:
+    app: kafka
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: kafka.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: kafka
+              servicePort: 9092
+#kafkaEnd#
+
+
+
+---
+#efk#
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: efk
+  labels:
+    app: efk
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+    - host: efk.hclblueprint1-admin.thecloudbridge.net
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: efk
+              servicePort: 5601
+#efkEnd#
+
+
+

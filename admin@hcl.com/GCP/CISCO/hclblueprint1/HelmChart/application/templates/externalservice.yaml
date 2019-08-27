@@ -1,0 +1,35 @@
+{{ if (.Values.service.external.enabled) }}
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: {{ .Values.service.external.name }}
+spec:
+  hosts:
+  - {{ .Values.service.external.host }}
+  ports:
+  - number: {{ .Values.service.external.port }}
+    name: {{ .Values.service.external.name }}_{{ .Values.service.external.protocol}}
+    protocol: {{ .Values.service.external.protocol}}
+  resolution: DNS
+  location: MESH_EXTERNAL
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: {{ .Values.service.external.name }}
+spec:
+  hosts:
+  - {{ .Values.service.external.host }}
+  tls:
+  - match:
+    - port: {{ .Values.service.external.port }}
+      sni_hosts:
+      - {{ .Values.service.external.host }}
+    route:
+    - destination:
+        host: {{ .Values.service.external.host }}
+        port:
+          number: {{ .Values.service.external.port }}
+      weight: 100
+---
+{{- end -}}
