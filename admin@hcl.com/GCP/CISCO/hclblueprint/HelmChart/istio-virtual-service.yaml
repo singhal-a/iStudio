@@ -12,13 +12,13 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*.hclblueprint-admin.softwarization.net"
+    - "*.hclblueprint-admin.thecloudbridge.net"
   - port:
       number: 443
       name: https
       protocol: HTTP
     hosts:
-    - "*.hclblueprint-admin.softwarization.net"
+    - "*.hclblueprint-admin.thecloudbridge.net"
 #grafana#
 ---
 apiVersion: networking.istio.io/v1alpha3
@@ -27,7 +27,7 @@ metadata:
   name: istio-grafana-vs
 spec:
   hosts:
-  - "grafana.hclblueprint-admin.softwarization.net"
+  - "grafana.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -48,7 +48,7 @@ metadata:
   name: istio-prometheus-vs
 spec:
   hosts:
-  - "prometheus.hclblueprint-admin.softwarization.net"
+  - "prometheus.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -69,7 +69,7 @@ metadata:
   name: istio-istio-vs
 spec:
   hosts:
-  - "servicegraph.hclblueprint-admin.softwarization.net"
+  - "servicegraph.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -90,7 +90,7 @@ metadata:
   name: istio-tracing-vs
 spec:
   hosts:
-  - "tracing.hclblueprint-admin.softwarization.net"
+  - "tracing.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -111,7 +111,7 @@ metadata:
   name: istio-zipkin-vs
 spec:
   hosts:
-  - "zipkin.hclblueprint-admin.softwarization.net"
+  - "zipkin.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -132,7 +132,7 @@ metadata:
   name: istio-jaeger-query-vs
 spec:
   hosts:
-  - "jaeger-query.hclblueprint-admin.softwarization.net"
+  - "jaeger-query.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -156,7 +156,7 @@ metadata:
   name: istio-db-mysql-vs
 spec:
   hosts:
-  - "db-mysql.hclblueprint-admin.softwarization.net"
+  - "db-mysql.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -177,7 +177,7 @@ metadata:
   name: istio-jenkins-vs
 spec:
   hosts:
-  - "jenkins.hclblueprint-admin.softwarization.net"
+  - "jenkins.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -198,7 +198,7 @@ metadata:
   name: istio-kafka-vs
 spec:
   hosts:
-  - "kafka.hclblueprint-admin.softwarization.net"
+  - "kafka.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:
@@ -219,7 +219,7 @@ metadata:
   name: istio-efk-vs
 spec:
   hosts:
-  - "efk.hclblueprint-admin.softwarization.net"
+  - "efk.hclblueprint-admin.thecloudbridge.net"
   gateways:
   - istio-istio-gateway
   http:

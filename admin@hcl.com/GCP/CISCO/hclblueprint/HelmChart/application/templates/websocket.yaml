@@ -7,7 +7,7 @@ metadata:
   name: istio-{{ .Values.service.name }}-vs
 spec:
   hosts:
-  - "{{ .Values.service.name }}.{{ .Values.service.identifier }}.softwarization.net"
+  - "{{ .Values.service.name }}.{{ .Values.service.identifier }}.thecloudbridge.net"
   gateways:
   - istio-istio-gateway.default.svc.cluster.local
   http:
