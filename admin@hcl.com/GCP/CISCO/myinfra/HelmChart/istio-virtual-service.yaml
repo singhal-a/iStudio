@@ -1,0 +1,149 @@
+#-------------------- istio gateway -------------------#
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: istio-istio-gateway
+spec:
+  selector:
+    istio: ingressgateway # use Istio default gateway implementation
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*.myinfra-admin.softwarization.net"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTP
+    hosts:
+    - "*.myinfra-admin.softwarization.net"
+#grafana#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-grafana-vs
+spec:
+  hosts:
+  - "grafana.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 3000
+        host: grafana.istio-system.svc.cluster.local
+#grafanaend#
+#prometheus#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-prometheus-vs
+spec:
+  hosts:
+  - "prometheus.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 9090 
+        host: prometheus.istio-system.svc.cluster.local
+#prometheusend#
+#servicegraph#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-istio-vs
+spec:
+  hosts:
+  - "servicegraph.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 8088 
+        host: servicegraph.istio-system.svc.cluster.local
+#servicegraphend#
+#tracing#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-tracing-vs
+spec:
+  hosts:
+  - "tracing.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 80 
+        host: tracing.istio-system.svc.cluster.local
+#tracingend#
+#zipkin#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-zipkin-vs
+spec:
+  hosts:
+  - "zipkin.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 9411 
+        host: zipkin.istio-system.svc.cluster.local
+#zipkinend#
+#jaeger#
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-jaeger-query-vs
+spec:
+  hosts:
+  - "jaeger-query.myinfra-admin.softwarization.net"
+  gateways:
+  - istio-istio-gateway
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: 16686 
+        host: jaeger-query.istio-system.svc.cluster.local
+#jaegerend#
+
+

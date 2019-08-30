@@ -1,0 +1,46 @@
+{{ if (.Values.service.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name.secondservice }}
+  labels:
+    app: {{ .Values.service.name.secondservice }}-{{ .Release.Namespace }}
+    app.kubernetes.io/name: {{ .Values.service.name.secondservice }}
+    helm.sh/chart: {{ include "helm.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.secondservice }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ .Values.service.name.secondservice }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ if (.Values.service.expose) }}
+---
+#istio#
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-{{ .Values.service.name.secondservice }}-vs
+spec:
+  hosts:
+  - "{{ .Values.service.name.secondservice }}.{{ .Values.service.identifier }}.softwarization.net"
+  gateways:
+  - istio-istio-gateway.default.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: {{ .Values.service.port.secondservice }} 
+        host: {{ .Values.service.name.secondservice }}.{{ .Release.Namespace }}.svc.cluster.local
+#istioEnd#
+---
+{{- end -}}
+{{- end -}}

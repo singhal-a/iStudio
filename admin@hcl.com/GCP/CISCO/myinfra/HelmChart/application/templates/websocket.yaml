@@ -1,0 +1,38 @@
+{{- $root := . -}}
+{{ if (.Values.websocket.enabled) }}
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-{{ .Values.service.name }}-vs
+spec:
+  hosts:
+  - "{{ .Values.service.name }}.{{ .Values.service.identifier }}.softwarization.net"
+  gateways:
+  - istio-istio-gateway.default.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: {{ .Values.service.port }}
+        host: {{ .Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
+      weight: 100
+    websocketUpgrade: true
+{{- range $key, $val := .Values.additionalPorts }}
+  http:
+  - match:
+    - uri:
+        prefix: "/{{ $key }}"
+    route:
+    - destination:
+        port:
+          number: {{ $val }}
+        host: {{ $root.Values.service.name }}.{{ .Release.Namespace }}.svc.cluster.local
+      weight: 100
+    websocketUpgrade: true
+{{- end }}
+---
+{{- end -}}

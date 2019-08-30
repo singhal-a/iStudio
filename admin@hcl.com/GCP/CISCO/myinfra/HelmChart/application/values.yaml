@@ -5,11 +5,9 @@
 replicaCount: 1
 
 image:
-  firstservicerepository: shrwantech/hcl
-  secondservicerepository: shrwantech/hcl
+  firstservicerepository: pd30470/acemicro-demo-aug27
   tag:
-    firstservice: wndeaprilservice1
-    secondservice: wndeaprilsecondservice1  
+    firstservice: latest  
   pullPolicy: IfNotPresent
 
 nameOverride: ""
@@ -18,24 +16,18 @@ fullnameOverride: ""
 service:
   enabled: true
   name:
-    firstservice: wnde-ui
-    secondservice: wnde-be
+    firstservice: acemicro
   autoScalingConfigration:
     firstservicemaxReplicas: 50
-    secondservicemaxReplicas: 50
     firstserviceminReplicas: 1
-    secondserviceminReplicas: 1
     firstservicetargetOn: cpu
-    secondservicetargetOn: cpu
     firstservicetargetAverageUtilization: 65
-    secondservicetargetAverageUtilization: 65
   type: ClusterIP
   port:
-    firstservice: 5000
-    secondservice: 5006
+    firstservice: 8080
   annotations:
     traffic.sidecar.istio.io/excludeOutboundIPRanges: "0.0.0.0/0"
-  identifier: hclblueprint-admin
+  identifier: myinfra-admin
   expose: true
   external:
     enabled: false
