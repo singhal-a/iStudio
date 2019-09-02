@@ -27,7 +27,7 @@ service:
     firstservice: 8080
   annotations:
     traffic.sidecar.istio.io/excludeOutboundIPRanges: "0.0.0.0/0"
-  identifier: myinfra-admin
+  identifier: demo
   expose: true
   external:
     enabled: false
